@@ -22,7 +22,7 @@ export default new Router({
       // 路由请求路径
       path: '/group',
       // 路由名称,可以省略不写
-      name: '/group',
+      name: 'Group',
        // 跳转到组件
       component: Group
     }

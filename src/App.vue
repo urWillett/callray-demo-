@@ -59,6 +59,11 @@ export default {
       callrayIcon:require('D:\\Code\\vscode\\callray1\\src\\assets\\callray.jpg')
     }
   },
+   methods:{
+    gotoPage:function (path) {
+        this.$router.push(path);//路由跳转的路径
+      }
+    },
   
   
 }
