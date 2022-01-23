@@ -1,6 +1,21 @@
 <template>
+
   <div id="groupStyle">
+    <!-- 下拉菜单 -->
+    <el-dropdown size="large" split-button type="primary">                                                                                      manager_id
+    <template #dropdown>
+      <el-dropdown-menu>
+        
+        <el-dropdown-item v-for="item in managerListId" :key="item" :value="item" @click="item">
+          {{item}}</el-dropdown-item>
+        <!--<el-dropdown-item @click="manager_id=22">22</el-dropdown-item>-->
+      </el-dropdown-menu>
+    </template>
+  </el-dropdown>
+
+  <!-- 穿梭框 -->
     <div style="text-align: center">
+    
       <el-transfer
         style="text-align: left; display: inline-block"
         v-model="value"
@@ -8,7 +23,7 @@
         :left-default-checked="[2, 3]"
         :right-default-checked="[1]"
         :render-content="renderFunc"
-        :titles="['Source', 'Target']"
+        :titles="['Source', 'agent_id']"
         :button-texts="['取消管理', '添加管理']"
         :format="{
         noChecked: '${total}',
@@ -24,6 +39,16 @@
 </template>
 
 <style>
+/* 穿梭框外框高宽 */
+    /* .el-transfer-panel{
+        width: 300px;
+        height: 500px;
+    }
+    /* 穿梭框内部展示列表 */
+    /* .el-transfer-panel__list.is-filterable{
+        height: 200px;
+    }; */ 
+
 #groupStyle{
   text-align: left;
   line-height: 20px;
@@ -41,7 +66,7 @@ import {Host, myPort, Protocol, User} from "../config/untils";
  // 路由的导出
 export default {
   name:"Group",
-  data() {
+  data() {   
     const generateData = _ => {
       const data = [];
       let self=this
@@ -61,6 +86,7 @@ export default {
       return data;
     };
     return {
+      managerListId: [],
       finalRelevance:[],
       accountsHistory:[],
       accountArray:[],
@@ -84,6 +110,7 @@ export default {
           console.log(self.accountsHistory);
           console.log("accountHistory");
           self.moveHistoryRelevance()
+          self.getManagerId()
         })
     },
     moveHistoryRelevance(){
@@ -122,11 +149,20 @@ export default {
             self.getHistoryRelevance()
           }
         })
+    },
+    getManagerId(){
+      let self = this
+      axios.get(Protocol+Host+':'+myPort+'/user/allManagerId')
+      .then(function(res){
+            self.managerListId=res.data.model;
+      })
     }
+
 
   },
   mounted() {
-    this.getHistoryRelevance()
+    this.getHistoryRelevance();
+    
   }
 };
 </script>
