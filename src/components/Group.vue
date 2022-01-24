@@ -2,11 +2,11 @@
 
   <div id="groupStyle">
     <!-- 下拉菜单 -->
-    <el-dropdown size="large" split-button type="primary">                                                                                      manager_id
+    <el-dropdown size="large" split-button type="primary" trigger="click">                                                                                      manager_id
     <template #dropdown>
       <el-dropdown-menu>
-        
-        <el-dropdown-item v-for="item in managerListId" :key="item" :value="item" @click="item">
+
+        <el-dropdown-item v-for="item in managerListId" :key="item" :value="item" @click.native="update(item)">
           {{item}}</el-dropdown-item>
         <!--<el-dropdown-item @click="manager_id=22">22</el-dropdown-item>-->
       </el-dropdown-menu>
@@ -15,7 +15,7 @@
 
   <!-- 穿梭框 -->
     <div style="text-align: center">
-    
+
       <el-transfer
         style="text-align: left; display: inline-block"
         v-model="value"
@@ -47,7 +47,7 @@
     /* 穿梭框内部展示列表 */
     /* .el-transfer-panel__list.is-filterable{
         height: 200px;
-    }; */ 
+    }; */
 
 #groupStyle{
   text-align: left;
@@ -66,7 +66,7 @@ import {Host, myPort, Protocol, User} from "../config/untils";
  // 路由的导出
 export default {
   name:"Group",
-  data() {   
+  data() {
     const generateData = _ => {
       const data = [];
       let self=this
@@ -99,6 +99,11 @@ export default {
   },
 
   methods: {
+    update(command){
+     console.log(command);
+     User.account_id=command;
+     this.getHistoryRelevance();
+    },
     handleChange(value, direction, movedKeys) {
       console.log(value, direction, movedKeys);
     },
@@ -158,11 +163,10 @@ export default {
       })
     }
 
-
   },
   mounted() {
     this.getHistoryRelevance();
-    
+
   }
 };
 </script>
